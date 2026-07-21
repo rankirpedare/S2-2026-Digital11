@@ -1,1 +1,9 @@
+Write a function or script that transforms raw_phrase by following these steps:
+
+Remove Special Symbols: Strip out any special characters (!, #, %).
+
+Remove Numbers: Strip out any digits (0-9).
+
+Make It All Uppercase: Convert the remaining letters to ALL UPPERCASE.
+
 
