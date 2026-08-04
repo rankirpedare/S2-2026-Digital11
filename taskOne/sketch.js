@@ -18,7 +18,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(800, 500);
+  createCanvas(800, 650);
   
   // Refresh live data every 5 minutes (300,000 ms)
   if (!USE_OFFLINE_MOCK) {
@@ -56,14 +56,24 @@ function draw() {
   if (aquariumData) {
     // NOTE: Update these keys based on your actual Seneye JSON response structure!
     // Example fields commonly found in sensor data:
-    let temp = aquariumData.temperature || 24.5;
-    let ph = aquariumData.ph || 7.2;
-    let nh3 = aquariumData.nh3 || 0.01;
+    let temp = aquariumData[0].exps.temperature.curr
+    let ph = aquariumData[0].exps.ph.curr
+    let nh3 = aquariumData[0].exps.nh3.curr 
+    let nh4 = aquariumData[0].exps.nh4.curr
+    let o2 = aquariumData[0].exps.o2.curr
+    let lux = aquariumData[0].exps.lux.curr
+    let par = aquariumData[0].exps.par.curr
+    let kelvin = aquariumData[0].exps.kelvin.curr
 
     // Call your custom graphic widgets
     drawTempWidget(50, 120, temp);
     drawGaugeWidget(300, 120, "pH Level", ph, 6.0, 8.5);
     drawGaugeWidget(550, 120, "Ammonia (NH3)", nh3, 0.0, 0.05);
+    drawGaugeWidget(50, 300, "Ammonium (NH4)", nh4, 0.0, 0.5);
+    drawGaugeWidget(300, 300, "Dissolved O2", o2, 0.0, 10.0);
+    drawGaugeWidget(550, 300, "Light (Lux)", lux, 0, 10000);
+    drawGaugeWidget(50, 450, "PAR", par, 0, 2000);
+    drawGaugeWidget(300, 450, "Kelvin", kelvin, 2000, 10000);
 
   } else {
     // Loading State
