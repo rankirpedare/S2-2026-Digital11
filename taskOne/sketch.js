@@ -18,7 +18,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(800, 650);
+  createCanvas(800, 500);
   
   // Refresh live data every 5 minutes (300,000 ms)
   if (!USE_OFFLINE_MOCK) {
@@ -62,8 +62,6 @@ function draw() {
     let nh4 = aquariumData[0].exps.nh4.curr
     let o2 = aquariumData[0].exps.o2.curr
     let lux = aquariumData[0].exps.lux.curr
-    let par = aquariumData[0].exps.par.curr
-    let kelvin = aquariumData[0].exps.kelvin.curr
 
     // Call your custom graphic widgets
     drawTempWidget(50, 120, temp);
