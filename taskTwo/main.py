@@ -10,15 +10,27 @@ def main():
             print("Exiting program. Goodbye!")
             break
 
+        # Input validation: check if the barcode is numeric
+        if not barcode.isdigit():
+            print("Error: Barcode must contain numbers only. Please try again.\n")
+            continue
+
         url = f"https://world.openfoodfacts.net/api/v2/product/{barcode}"
-        response = requests.get(url)
-        data = response.json()
+        
+        try:
+            response = requests.get(url)
+            data = response.json()
+        except requests.RequestException:
+            print("Network error occurred. Please check your connection and try again.\n")
+            continue
+
+        # Input validation: check API status (1 means found, 0 means not found)
+        if data.get("status") != 1:
+            print("Product not found or unregistered barcode. Please try again.\n")
+            continue
 
         # Safely handle missing product data
-        product = data.get("product")
-        if not product:
-            print("Product not found or invalid barcode. Please try again.\n")
-            continue
+        product = data.get("product", {})
 
         # Extracting fields safely with .get() fallbacks
         product_name = product.get("product_name", "Product name not found")
