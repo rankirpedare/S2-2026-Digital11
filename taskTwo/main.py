@@ -4,19 +4,20 @@ import requests
 # Prompt the user to enter a barcode dynamically
 barcode = input("Enter barcode: ")
 
-# Nutella Barcode: 3017624010701
 
-url = f"https://world.openfoodfacts.org/api/v2/product/{barcode}"
+url = f"https://world.openfoodfacts.net/api/v2/product/{barcode}"
 response = requests.get(url)
 
 data = response.json()
-product = data.get("product", {})
 
-# Extracting 4 different data fields
+# Safely handle missing product data (e.g., if barcode is invalid)
+product = data.get("product") or {}
+
+# Extracting fields safely with .get() fallbacks
 product_name = product.get("product_name", "Product name not found")
-brand = product.get("brands", "Brand not found")
-nutriscore = product.get("nutriscore_grade", "Nutri-Score not found")
-ingredients = product.get("ingredients_text_en", "Ingredients not found")
+brand = product.get("brands", "Brand not listed")
+nutriscore = product.get("nutriscore_grade", "Nutri-Score not available")
+ingredients = product.get("ingredients_text_en", "Ingredients not listed")
 
 # A menu system
 def print_menu():
@@ -31,7 +32,7 @@ def main():
             print(f"\n--- Product Information ---")
             print(f"Product Name: {product_name}")
             print(f"Brand: {brand}")
-            print(f"Nutri-Score: {nutriscore}")
+            print(f"Nutri-Score: {nutriscore.upper() if nutriscore != 'Nutri-Score not available' else nutriscore}")
             print(f"Ingredients: {ingredients}\n")
         elif choice == "2":
             break
